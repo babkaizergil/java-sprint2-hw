@@ -3,11 +3,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-
-        //MonthReader monthReader = new MonthReader();
-
-       // Processing processing = new Processing(yearReader, monthReader);
-
         System.out.println("Введите команду:");
         printMenu();
         Scanner scanner = new Scanner(System.in);
@@ -17,7 +12,7 @@ public class Main {
         while (input != 007) {
             if (input == 1) {
                 monthReader = new MonthReader();
-                for(int i = 1; i < 13; i++) {
+                for(int i = 1; i < 4; i++) {
                     String monthNumber = (i<10)? "0"+ i: String.valueOf(i);
                     monthReader.loadFile(2021, i,"resources/m.2021" + monthNumber + ".csv");
                 }
@@ -28,19 +23,26 @@ public class Main {
                 System.out.println("Годовой отчет успешно загружен");
             }
             else if (input == 3) {
-                //todo
+                if(monthReader != null && yearReader != null) {
+                    Processing processing = new Processing(yearReader, monthReader);
+                    if (processing.check()) {
+                        System.out.println("Операция успешно завершена.");
+                    }
+                }
             }
             else if (input == 4) {
                 if(monthReader != null) {
-                    System.out.println("ИНФОРМАЦИЯ О МЕСЯЧНОМ ОТЧЕТЕ");
-                    System.out.println();
-                    System.out.println("Самый прибыльный товар:" + monthReader.getTopItem(1));
+                    for(int i = 1; i < 4; i++) {
+                        System.out.println("ИНФОРМАЦИЯ О МЕСЯЧНОМ ОТЧЕТЕ ЗА " + i + " месяц"); //todo свитч для месяцев названий
+                        System.out.println("Самый прибыльный товар: " + monthReader.getTopItem(i));
+                        System.out.println("Самая большая трата: " + monthReader.getMaxExpense(i));
+                        System.out.println();
+                    }
                 }
-                //todo
             }
             else if (input == 5) {
                 if(yearReader != null) {
-                    System.out.println("ИНФОРМАЦИЯ О ГОДОВОМ ОТЧЕТЕ");
+                    System.out.println("ИНФОРМАЦИЯ О ГОДОВОМ ОТЧЕТЕ"); // как вывести номер года из имени файла
                     System.out.println();
                     yearReader.getProfit();
                     System.out.println("Средний расход в году: " + yearReader.getAvgExpense());
@@ -50,7 +52,7 @@ public class Main {
             else {
                 System.out.println("Команда не известна");
             }
-            printMenu();                                // печатаем меню ещё раз
+            printMenu();
             input = scanner.nextInt();
         }
     }

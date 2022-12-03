@@ -39,11 +39,31 @@ public class MonthReader {
                 topItem = item;
             }
         }
+        topItem = topItem + " : " + String.valueOf(items.get(topItem));
         return topItem;
     }
-    //Самый прибыльный товар, то есть товар для которого is_expense == false,
-    // а произведение количества (quantity) на сумму (sum_of_one) максимально.
-    // Вывести название товара и сумму;
+    public String getMaxExpense(int month){
+        HashMap<String, Integer> expenses = new HashMap<>();
+        for (Month all : allMonths) {
+            if(all.month == month) {
+                if(all.isExpense) {
+                    expenses.put(all.item, (all.price * all.quantity));
+                }
+            }
+        }
+        String maxExpense = null;
+        for(String item : expenses.keySet()){
+            if(maxExpense == null) {
+                maxExpense = item;
+                continue;
+            }
+            if (expenses.get(maxExpense) < expenses.get(item)) {
+                maxExpense = item;
+            }
+        }
+        maxExpense = maxExpense + " : " + String.valueOf(expenses.get(maxExpense));
+        return maxExpense;
+    }
 
     public String readFileContents(String path) {
         try {
