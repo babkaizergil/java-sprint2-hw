@@ -39,7 +39,7 @@ public class MonthReader {
                 topItem = item;
             }
         }
-        topItem = topItem + " : " + String.valueOf(items.get(topItem));
+        topItem = topItem + " : " + (items.get(topItem));
         return topItem;
     }
     public String getMaxExpense(int month){
@@ -61,7 +61,7 @@ public class MonthReader {
                 maxExpense = item;
             }
         }
-        maxExpense = maxExpense + " : " + String.valueOf(expenses.get(maxExpense));
+        maxExpense = maxExpense + " : " + expenses.get(maxExpense);
         return maxExpense;
     }
 
@@ -72,5 +72,23 @@ public class MonthReader {
             System.out.println("Невозможно прочитать файл с месячным отчётом. Возможно файл не находится в нужной директории.");
             return null;
         }
+    }
+
+    public String getMonthName(int month) {
+        String monthName;
+        switch (month) {
+            case 1:
+                monthName = "Январь";
+                break;
+            case 2:
+                monthName = "Февраль";
+                break;
+            case 3:
+                monthName = "Март";
+                break;
+            default:
+                monthName = "Неопознанный месяц";
+        }
+        return monthName;
     }
 }

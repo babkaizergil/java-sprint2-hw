@@ -33,7 +33,7 @@ public class Main {
             else if (input == 4) {
                 if(monthReader != null) {
                     for(int i = 1; i < 4; i++) {
-                        System.out.println("ИНФОРМАЦИЯ О МЕСЯЧНОМ ОТЧЕТЕ ЗА " + i + " месяц"); //todo свитч для месяцев названий
+                        System.out.println("ИНФОРМАЦИЯ О МЕСЯЧНОМ ОТЧЕТЕ ЗА " + monthReader.getMonthName(i) + " месяц"); //todo свитч для месяцев названий
                         System.out.println("Самый прибыльный товар: " + monthReader.getTopItem(i));
                         System.out.println("Самая большая трата: " + monthReader.getMaxExpense(i));
                         System.out.println();

@@ -8,63 +8,63 @@ public class Processing {
         this.yearReader = yearReader;
         this.monthReader = monthReader;
     }
+
     public boolean check() {
         boolean check = true;
         HashMap<Integer, Integer> expenseInMonth = new HashMap<>();
         HashMap<Integer, Integer> incomeInMonth = new HashMap<>();
         for (Month month : monthReader.allMonths) {
-            if(month.isExpense) {
-                expenseInMonth.put(month.month, (month.quantity * month.price));
+
+            int money = month.quantity * month.price;
+            if (month.isExpense) {
+                Integer monthExpense = expenseInMonth.get(month.month);
+                if (monthExpense != null) {
+                    expenseInMonth.put(month.month, monthExpense + money);
+                } else {
+                    expenseInMonth.put(month.month, money);
+                }
             } else {
-                incomeInMonth.put(month.month, (month.quantity * month.price));
+                Integer monthIncome = incomeInMonth.get(month.month);
+                if (monthIncome != null) {
+                    incomeInMonth.put(month.month, monthIncome + money);
+                } else {
+                    incomeInMonth.put(month.month, money);
+                }
             }
-        }
-        int expense = 0;
-        for (Integer exp : expenseInMonth.keySet()) {
-            expense += exp;
-        }
-        int income = 0;
-        for (Integer inc : incomeInMonth.keySet()) {
-            income += inc;
         }
         HashMap<Integer, Integer> expenseInYear = new HashMap<>();
         HashMap<Integer, Integer> incomeInYear = new HashMap<>();
         for (Year year : yearReader.allYear) {
-            if(year.isExpense) {
+            if (year.isExpense) {
                 expenseInYear.put(year.month, year.amount);
             } else {
                 incomeInYear.put(year.month, year.amount);
             }
         }
-        if(expenseInYear == null) {
-            System.out.println("Расход есть в месячном отчете " + ", но отсутствует в годовом отчете ");
-            check = false;
-        }
         for (Integer monthNumber : expenseInMonth.keySet()) {
             int expenseByMonth = expenseInMonth.get(monthNumber);
-            int expenseByYear = expenseInYear.getOrDefault(monthNumber, 0);
-            if(expenseByMonth != expenseByYear) {
+            Integer expenseByYear = expenseInYear.get(monthNumber);
+            if (expenseByYear == null) {
+                System.out.println("Расход есть в месячном отчете " + ", но отсутствует в годовом отчете ");
+                check = false;
+            } else if (expenseByMonth != expenseByYear) {
                 System.out.println("В " + monthNumber + " месяце расход составил " + expenseByMonth +
                         " по месячному отчету, по годовому: " + expenseByYear);
+                check = false;
             }
-            check = false;
-        }
-        if(incomeInYear == null) {
-            System.out.println("Доход есть в месячном отчете " + ", но отсутствует в годовом отчете ");
-            check = false;
         }
         for (Integer monthNumber : incomeInMonth.keySet()) {
             int incomeByMonth = incomeInMonth.get(monthNumber);
-            int incomeByYear = incomeInYear.getOrDefault(monthNumber,0);
-            if(incomeByMonth != incomeByYear) {
+            Integer incomeByYear = incomeInYear.getOrDefault(monthNumber, 0);
+            if (incomeByYear == null) {
+                System.out.println("Доход есть в месячном отчете " + ", но отсутствует в годовом отчете ");
+                check = false;
+            } else if (incomeByMonth != incomeByYear) {
                 System.out.println("В " + monthNumber + " месяце доход составил " + incomeByMonth +
                         " по месячному отчету, по годовому: " + incomeByYear);
+                check = false;
             }
-            check = false;
-            }
+        }
         return check;
     }
 }
-
-//Подсчитывать две суммы: общие доходы и общие расходы по каждому из месяцев.
-//Сверять полученные суммы с суммой доходов и расходов в отчёте по году.

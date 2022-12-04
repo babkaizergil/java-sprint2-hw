@@ -53,27 +53,27 @@ public class YearReader {
         }
     }
     public double getAvgExpense() {
-        double avgExpense = 0;
         int expense = 0;
+        float count = 0;
         for (Year year : allYear) {
             if(year.isExpense){
                 expense += year.amount;
+                count++;
             }
         }
-        avgExpense = expense * 2.0 / allYear.size();
-        return avgExpense;
+        return expense / count;
     }
 
     public double getAvgIncome() {
-        double avgIncome = 0;
         int income = 0;
+        float count = 0;
         for (Year year : allYear) {
             if(!year.isExpense) {
                 income += year.amount;
+                count++;
             }
         }
-        avgIncome = income *2.0 / allYear.size();
-        return avgIncome;
+        return income / count;
     }
 
 }
