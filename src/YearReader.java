@@ -16,8 +16,9 @@ public class YearReader {
             int month = Integer.parseInt(parts[0]);                                    //месяц
             int amount = Integer.parseInt(parts[1]);                  //сумма
             boolean isExpense = Boolean.parseBoolean(parts[2]);         //расходли ?
+            int yearNumber = Integer.parseInt(path.substring(12, 16));             //"resources/y.2021.csv"
 
-            Year year = new Year(month, amount, isExpense);         //создаю объект year, передаю параметры
+            Year year = new Year(month, amount, isExpense, yearNumber);         //создаю объект year, передаю параметры
             allYear.add(year);                                      //складываю объект в список
             }
         } else {
